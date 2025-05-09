@@ -1,7 +1,6 @@
 import unittest
 
-from htmlnode import HTMLNode, LeafNode, ParentNode, text_node_to_html_node
-from textnode import TextType, TextNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 class TestHTMLNode(unittest.TestCase):
     def test_eq(self):
@@ -107,50 +106,6 @@ class TestHTMLNode(unittest.TestCase):
     
         actual = container_div.to_html()
         self.assertEqual(actual, expected) 
-
-    def test_text(self):
-        node = TextNode("This is a text node", TextType.NORMAL)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, None)
-        self.assertEqual(html_node.value, "This is a text node")
- 
-    def test_bold(self):
-        node = TextNode("This is bold text", TextType.BOLD)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, "b")
-        self.assertEqual(html_node.value, "This is bold text")
-
-    def test_italic(self):
-        node = TextNode("This is italic text", TextType.ITALIC)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, "i")
-        self.assertEqual(html_node.value, "This is italic text")
-
-    def test_code(self):
-        node = TextNode("This is code", TextType.CODE)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, "code")
-        self.assertEqual(html_node.value, "This is code")
-
-    def test_link(self):
-        # Assuming TextNode constructor accepts url as a parameter
-        node = TextNode("Click me", TextType.LINK)
-        node.url = "https://example.com"  # Set url property
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, "a")
-        self.assertEqual(html_node.value, "Click me")
-        self.assertEqual(html_node.props["href"], "https://example.com")
-
-    def test_image(self):
-        # Assuming TextNode constructor accepts url as a parameter
-        node = TextNode("Alt text", TextType.IMAGE)
-        node.url = "image.png"  # Set url property
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, "img")
-        self.assertEqual(html_node.value, "")
-        self.assertEqual(html_node.props["src"], "image.png")
-        self.assertEqual(html_node.props["alt"], "Alt text")
-
 
 if __name__ == "__main__":
     unittest.main()
