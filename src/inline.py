@@ -10,7 +10,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         if node.text_type != TextType.NORMAL:
             new_node.append(node)
             continue
-        
+
         text = node.text
         processed_text = []
 
@@ -20,7 +20,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
             end_idx = text.find(delimiter, start_idx + len(delimiter))
 
             if end_idx == -1:
-                raise Exception("Invalid markdown: missing closing delimiter")
+               raise Exception("Invalid markdown: missing closing delimiter")
 
             before = text[:start_idx]
             content  = text[start_idx + len(delimiter): end_idx]
@@ -120,3 +120,9 @@ def split_nodes_link(old_nodes):
         new_node.extend(process_text)
 
     return new_node
+
+
+def text_to_textnodes(text):
+    
+    return split_nodes_delimiter(split_nodes_delimiter(split_nodes_link(split_nodes_image(split_nodes_delimiter([TextNode(text, TextType.NORMAL)], "`", TextType.CODE))), "_", TextType.ITALIC), "**", TextType.BOLD)
+
