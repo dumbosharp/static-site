@@ -1,6 +1,6 @@
 import unittest
 from textnode import TextNode, TextType
-from inline import split_nodes_delimiter  # Replace with your actual module name
+from inline import *  # Replace with your actual module name
 
 class TestSplitNodesDelimiter(unittest.TestCase):
     
@@ -33,3 +33,34 @@ class TestSplitNodesDelimiter(unittest.TestCase):
         self.assertEqual(result[1].text, "code")
         self.assertEqual(result[2].text, " and more ")
         self.assertEqual(result[3].text, "code blocks")
+
+    def test_extract_markdown_images(self):
+
+        matches = extract_markdown_images(
+            "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png)"
+        )
+        matches1 = extract_markdown_images(
+            "this is a big test  ![!@#$%^)^*)(}{](!@#$%^&*_+=-0987654321)"
+        )
+        
+        self.assertListEqual([("image", "https://i.imgur.com/zjjcJKZ.png")], matches)
+        self.assertListEqual([("!@#$%^)^*)(}{", "!@#$%^&*_+=-0987654321")], matches1)
+
+
+    def test_split_images(self):
+        node = TextNode(
+            "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png) and another ![second image](https://i.imgur.com/3elNhQu.png)",
+            TextType.NORMAL,
+        )
+        new_nodes = split_nodes_image([node])
+        self.assertListEqual(
+            [
+                TextNode("This is text with an ", TextType.NORMAL),
+                TextNode("image", TextType.IMAGE, "https://i.imgur.com/zjjcJKZ.png"),
+                TextNode(" and another ", TextType.NORMAL),
+                TextNode(
+                    "second image", TextType.IMAGE, "https://i.imgur.com/3elNhQu.png"
+                ),
+            ],
+            new_nodes,
+        )
