@@ -31,8 +31,9 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
             processed_text.append(TextNode(content, text_type))
 
             text = after
-            
-        processed_text.append(TextNode(text, TextType.NORMAL))
+
+        if text:    
+            processed_text.append(TextNode(text, TextType.NORMAL))
 
         new_node.extend(processed_text)
 

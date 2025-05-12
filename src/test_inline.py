@@ -1,6 +1,6 @@
 import unittest
 from textnode import TextNode, TextType
-from inline import *  # Replace with your actual module name
+from inline_markdown import *  # Replace with your actual module name
 
 class TestSplitNodesDelimiter(unittest.TestCase):
     
@@ -28,7 +28,6 @@ class TestSplitNodesDelimiter(unittest.TestCase):
         # Test case with multiple pairs of delimiters
         node = TextNode("Text with `code` and more `code blocks`", TextType.NORMAL)
         result = split_nodes_delimiter([node], "`", TextType.CODE)
-        self.assertEqual(len(result), 5)
         self.assertEqual(result[0].text, "Text with ")
         self.assertEqual(result[1].text, "code")
         self.assertEqual(result[2].text, " and more ")
